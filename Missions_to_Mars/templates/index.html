@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mission to Mars</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+  <!--Top with "button" for scrape-->
+  <div class="container text-center">
+    <div class="jumbotron">
+      <h1>Mission to Mars</h1>
+      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+    </div>
+  
+  <!--Mars News - I never could get the style sheet to work for some reason-->
+    <div class="container-fluid text-left">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Latest Mars News</h2>
+          <p><b><big>{{mars_stuff.news_title}}</big></b></p>
+          <p>{{mars_stuff.news_p}}</p>         
+        </div>
+      </div>
+    </div>
+    <br>
+    <!--Featured Mars Image, which isn't always Mars based-->
+    <div class="container-fluid text-left">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Featured Mars Image</h2>
+          <img src="{{mars_stuff.featured_image_url}}" class="img-fluid" >
+        </div>
+    <!--Current Weather, Thanks Richard.  Card class is new to me but it worked here and for the hemispheres-->
+        <div class="col-md-6 text-left">
+          <div class="card">
+            <div class="col-md-12">
+              <h3>Current Weather on Mars</h3>
+              <small>{{mars_stuff.mars_weather}}</small>
+            </div>
+          </div>
+          <br>
+    <!--Mars Facts-->
+          <div class="col-md-12 text-left facts">
+            <h3>Mars Facts</h3>
+            {{mars_stuff.mars_facts | safe}}
+          </div>
+        </div>
+      </div>
+    <br>
+    </div>
+    <div class="container-fluid">
+      <div class="jumbotron">
+        <h1>Mars Hemispheres</h1>
+        <div class="row">
+        <!--Where the hell did I get this loop?  I was unable to refer to each of the individual pics/titles but this magic worked.
+        mars_stuff.hemisphere_image_urls.0.img_url (in double braces) <- this is the code for refering to individual pics/titles.  I found it after making the loop-->
+        {% for hemisphere in mars_stuff.hemisphere_image_urls %}
+          <div class="col-md-6 text-center">
+            <div class="card text-center">
+              <img class="card-img-top text-center" src="{{ hemisphere.img_url }}">
+                <div class="card-body text-center">
+                  <h4 class="card-title text-center">{{ hemisphere.title }}</h4>
+                </div>
+              </div>
+          </div>
+        {% endfor %}         
+          
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
+
+<!-- The Following code is what I originally had for the hemisphere section of the page.  I couldn't call the individual pics/titles and found the loop above (and class="card").
+I've adjusted my original code with the correct call to each pic/title.  Really this is just to see if I could do this the way I set out to do it.  I like the loop better.
+This would go at line 59.
+
+      <div class="row">
+        <div class="col-md-6">
+          <img src="{{mars_stuff.hemisphere_image_urls.0.img_url}}"class="img-fluid" >
+          <h4>{{mars_stuff.hemisphere_image_urls.0.title }}</h4>
+        </div>
+        <div class="col-md-6">
+          <img src="{{mars_stuff.hemisphere_image_urls.1.img_url }}"class="img-fluid" >
+          <h4>{{mars_stuff.hemisphere_image_urls.1.title }}</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="{{mars_stuff.hemisphere_image_urls.2.img_url }}"class="img-fluid" >
+          <h4>{{mars_stuff.hemisphere_image_urls.2.title }}</h4>
+        </div>
+        <div class="col-md-6">
+          <img src="{{mars_stuff.hemisphere_image_urls.3.img_url }}"class="img-fluid" >
+          <h4>{{mars_stuff.hemisphere_image_urls.3.title }}</h4>
+        </div>
+      </div>-->
